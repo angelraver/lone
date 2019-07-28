@@ -1,0 +1,33 @@
+@font-face {
+  font-family: ArcadeClassic;
+  src: url(arcadeClassic.ttf);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: gray;
+  text-align: center;
+  font-family: ArcadeClassic;
+  font-size: 20px;
+  letter-spacing: 5px;
+}
+
+#game {
+  position: relative;
+  background: #000;
+  display: block;
+  margin: 1% auto;
+  overflow: hidden;
+}
+
+.text {
+  color: white;
+  letter-spacing: 1px;
+}
+
+/* enemys */
+
+#game * {
+  position: absolute;
+}
