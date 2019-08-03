@@ -1,11 +1,4 @@
-
 function titleScreen () {
-  if(Pause) {
-    Pause = false;
-    Screen = 'levelStart';
-    MarkTime = GlobalTime;
-    playSound('start.mp3');
-  }
   Title.framing();
 
   addElement('gamename', Title);
@@ -16,6 +9,7 @@ function titleScreen () {
       y: GAME_HEIGHT / 2,
       w: GAME_WIDTH,
       h: 25,
+      z: 30,
       text: 'PRESS ENTER',
       cssClass: 'text'
     })
@@ -27,6 +21,7 @@ function titleScreen () {
       y: GAME_HEIGHT - (GAME_HEIGHT / 10),
       w: GAME_WIDTH,
       h: 15,
+      z: 30,
       text: 'raver games 2019',
       cssClass: 'text'
     })
@@ -36,12 +31,43 @@ function titleScreen () {
 }
 
 function levelStartScreen () {
+  if(SetNewGame) {
+    Enemys = [];
+    Lives = 1;
+    GameOver =  false;
+    levelEnemys = LevelEnemys(CurrentLevel);
+    SetNewGame = false;
+    KillCount = 0;
+
+    Hero = new SPRITE({
+      x: GAME_WIDTH / 2 - BLOCK_UNITY / 2,
+      y: GAME_HEIGHT - GAME_HEIGHT / 5,
+      h: BLOCK_UNITY * 4,
+      w: BLOCK_UNITY * 4,
+      z: 20,
+      sheet: 'shipHero.png',
+      totalFrames: 6,
+    });
+
+    Jupiter = new SPRITE({
+      x: GAME_WIDTH / 3,
+      y: -GAME_HEIGHT,
+      w: GAME_WIDTH,
+      h: GAME_HEIGHT,
+      z: 10,
+      sheet: 'jupiter.png',
+      totalFrames: 1,
+      cssClass: 'planet'
+    });
+  }
+
   addElement('level', 
     new SPRITE({
       x: 0,
       y: GAME_HEIGHT / 2 - 100,
       w: GAME_WIDTH,
       h: 25,
+      z: 30,
       text: 'LEVEL ' + CurrentLevel,
       cssClass: 'text'
     })
@@ -53,6 +79,7 @@ function levelStartScreen () {
       y: GAME_HEIGHT / 2 -50,
       w: GAME_WIDTH,
       h: 25,
+      z: 30,
       text: 'GET READY!',
       cssClass: 'text'
     })
@@ -72,9 +99,11 @@ function actionScreen () {
   checkColisions();
   drawGameTexts();
   drawStars(5);
+  drawPlanet(.5);
   drawEnemyShoots();
   drawEnemys();
   drawExplosions();
+  drawPlanet(1);
 
   if(!GameOver) {
     drawShoots();
@@ -91,9 +120,9 @@ function actionScreen () {
     MarkTime = 0;
   }
 
-  if(GlobalTime > 10 && Enemys.length === 0) {
-    Screen = 'levelComplete';
-  }
+    if(GlobalTime > 80 && Enemys.length === 0) {
+      Screen = 'levelComplete';
+    }
 
 }
 
@@ -115,7 +144,7 @@ function levelCompleteScreen () {
       y: GAME_HEIGHT / 2 - 125,
       w: GAME_WIDTH,
       h: 25,
-      text: 'COMPLETE',
+      text: 'COMPLETED',
       cssClass: 'text'
     })
   );
@@ -168,7 +197,8 @@ function gameOverScreen () {
       y: GAME_HEIGHT / 2 - 10,
       w: GAME_WIDTH,
       h: 20,
-      text: 'GAME OVER ',
+      z: 30,
+      text: 'GAME OVER',
       cssClass: 'text'
     })
   );

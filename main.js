@@ -35,7 +35,7 @@ function rolling() {
     break;
     case 'gameOver' :
       gameOverScreen();
-    default :
+    break;
     case 'levelComplete':
       levelCompleteScreen();
     break;

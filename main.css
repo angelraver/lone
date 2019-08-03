@@ -22,7 +22,7 @@ body {
 }
 
 .text {
-  color: white;
+  color: #E8E8E8;
   letter-spacing: 1px;
 }
 
@@ -30,4 +30,9 @@ body {
 
 #game * {
   position: absolute;
+}
+
+.planet {
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
 }

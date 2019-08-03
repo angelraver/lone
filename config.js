@@ -13,40 +13,6 @@ const ENEMY_SIZE = BLOCK_UNITY * 4;
 const SPRITES_FOLDER = './sprites/';
 const SOUND_FOLDER = './sounds/';
 
-const SPRITE = function (props) {
-  this.h = props.h;
-  this.w = props.w;
-  this.y = props.y;
-  this.x = props.x;
-  this.hit = false;
-  this.sheet = props.sheet ? SPRITES_FOLDER + props.sheet : null;
-  this.totalFrames = props.totalFrames;
-  this.currentFrame = 0;
-  this.sheetY = 0;
-  this.framing = function() {
-    this.sheetY = this.currentFrame * this.h;
-    if(this.currentFrame < this.totalFrames - 1) {
-      this.currentFrame++;
-    } else {
-      this.currentFrame = 0;
-    }
-  };
-  this.path = props.path;
-  this.pathIndex = 0;
-  this.hit = false;
-  this.loops = props.loops;
-  this.currentLoop = 0;
-  this.canLoop = () =>  this.currentLoop < this.loops;
-  this.looping = function () {
-    this.currentLoop++;
-  }
-  this.spawnedAt = props.spawnedAt; 
-  this.shootAt = props.shootAt;
-  this.shooted = false;
-  this.text = props.text;
-  this.cssClass = props.cssClass;
-};
-
 function addElement(id, sprite) { 
   var el = document.createElement("div"); 
   el.setAttribute('id', id);
@@ -54,6 +20,8 @@ function addElement(id, sprite) {
   el.style.left = sprite.x + 'px';
   el.style.width = sprite.w + 'px';
   el.style.height = sprite.h + 'px';
+  el.style.zIndex = sprite.z;
+  el.setAttribute("class", sprite.cssClass);
 
   if(sprite.sheet) {
     el.style.background = 'url("' + sprite.sheet + '") 0 ' + sprite.sheetY + 'px';
@@ -118,62 +86,6 @@ const topLimit = (shape) => shape.y < BLOCK_UNITY;
 const rightLimit = (shape) => shape.x + shape.w + BLOCK_UNITY >= GAME_WIDTH;
 const bottomLimit = (shape) => shape.y + shape.h >= GAME_HEIGHT - BLOCK_UNITY;
 const leftLimit = (shape) => shape.x - BLOCK_UNITY <= 0;
-
-function keyDown(e) {
-  switch (e.code) {
-    case 'ArrowRight':
-      KeyRight = true;
-      break;
-    case 'ArrowLeft':
-      KeyLeft = true;
-      break;
-    case 'ArrowUp':
-      Acelerate = true;
-      break;
-    case 'ArrowDown':
-      Break = true;
-      break;
-    case 'KeyX':
-      Shoot = true;
-      break;
-    case 'Enter':
-      Pause = !Pause;
-      if(Screen === 'action') {
-        if(Pause) {
-          playSound('start.mp3');
-          stop();
-        } else {
-          playSound('start.mp3');
-          go();
-        }
-      }
-      break;
-    default:
-      break;
-  }
-}
-
-function keyUp(e) {
-  switch (e.code) {
-    case 'ArrowRight':
-      KeyRight = false;
-      break;
-    case 'ArrowLeft':
-      KeyLeft = false;
-      break;
-    case 'ArrowUp':
-      Acelerate = false;
-      break;
-    case 'ArrowDown':
-      Break = false;
-      break;
-    case 'KeyX':
-      Shoot = false;
-      break;
-    default:
-      break;
-  }
-}
 
 var starLinesBegin = [
   {

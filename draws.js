@@ -56,6 +56,7 @@ function drawShoots() {
       y: Hero.y,
       h: BLOCK_UNITY,
       w: BLOCK_UNITY,
+      z: 20,
       sheet: 'shoot.png',
       totalFrames: 2
     }));
@@ -83,9 +84,11 @@ function drawStars(speed) {
   if(AddStarLine) {
     StarLines.push(new STAR_LINE());
   }
+
   if(StarLines.length === 8){
     StarLines.shift();
   }
+  
   StarLines.map(function(starLine) {
     starLine.y = starLine.y + speed;
     AddStarLine = GAME_HEIGHT / 6 - starLine.y < 3;
@@ -96,6 +99,7 @@ function drawStars(speed) {
         y: starLine.y - (parseInt(block) * 10),
         h: 3,
         w: 3,
+        z: 0,
         sheet: 'star.png',
         totalFrames: 1
       });
@@ -104,6 +108,11 @@ function drawStars(speed) {
       }
     });
   });
+}
+
+function drawPlanet(speed) {
+  Jupiter.y = Jupiter.y + speed;
+  addElement('jupiter', Jupiter);
 }
 
 function drawEnemys() {
@@ -167,6 +176,7 @@ function drawGameTexts() {
       y: BLOCK_UNITY,
       w: 100,
       h: 20,
+      z: 100,
       text: 'KILLS',
       cssClass: 'text'
     })
@@ -177,6 +187,7 @@ function drawGameTexts() {
       y: BLOCK_UNITY * 3,
       w: 100,
       h: 20,
+      z: 100,
       text: KillCount,
       cssClass: 'text'
     })
@@ -187,6 +198,7 @@ function drawGameTexts() {
       y: BLOCK_UNITY,
       w: 100,
       h: 20,
+      z: 100,
       text: 'Level ' + CurrentLevel,
       cssClass: 'text'
     })
@@ -197,6 +209,7 @@ function drawGameTexts() {
       y: BLOCK_UNITY,
       w: 100,
       h: 20,
+      z: 100,
       text: 'Lives ' + Lives,
       cssClass: 'text'
     })

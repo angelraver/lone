@@ -6,6 +6,7 @@ const ENEMY = function (type, x, y, spawnedAt, shootAt, loops) {
     y,
     h: ENEMY_SIZE,
     w: ENEMY_SIZE,
+    z: 20,
     sheet: spriteSheet.sheet,
     totalFrames: spriteSheet.totalFrames,
     path,
@@ -21,6 +22,7 @@ const ENEMYSHOOT = function (hero, enemy) {
     y: enemy.y,
     h: BLOCK_UNITY,
     w: BLOCK_UNITY,
+    z: 20,
     sheet: 'shoot2.png',
     totalFrames: 2,
     path: pathLinear(enemy, hero, ENEMY_SHOOT_SPEED)
