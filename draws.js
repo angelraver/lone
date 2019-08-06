@@ -92,7 +92,6 @@ function drawStars(speed) {
   StarLines.map(function(starLine) {
     starLine.y = starLine.y + speed;
     AddStarLine = GAME_HEIGHT / 6 - starLine.y < 3;
-    DiscardStarLine = starLine.y > GAME_HEIGHT;
     starLine.blocks.split('').map(function (block, i) {
       let star = new SPRITE({
         x: i * BLOCK_UNITY,
@@ -116,7 +115,7 @@ function drawPlanet(speed) {
 }
 
 function drawEnemys() {
-  levelEnemys.map(function(enemy) {
+  Level.enemys.map(function(enemy) {
     if(enemy.spawnAt === GlobalTime && !enemy.spawned) {
       Enemys.push(new ENEMY(enemy.type, enemy.x, enemy.y, enemy.spawnAt, enemy.shootAt, enemy.loops));
       enemy.spawned = true;
@@ -169,51 +168,18 @@ function drawEnemyShoots() {
   });
 }
 
-function drawGameTexts() {
-  addElement('Kills',
-    new SPRITE({
-      x: (GAME_WIDTH / 2) - 50,
-      y: BLOCK_UNITY,
-      w: 100,
-      h: 20,
-      z: 100,
-      text: 'KILLS',
-      cssClass: 'text'
-    })
-  );
-  addElement('KillCount', 
-    new SPRITE({
-      x: (GAME_WIDTH / 2) - 50,
-      y: BLOCK_UNITY * 3,
-      w: 100,
-      h: 20,
-      z: 100,
-      text: KillCount,
-      cssClass: 'text'
-    })
-  );
-  addElement('Level', 
-    new SPRITE({
-      x: (GAME_WIDTH / 10) - 50,
-      y: BLOCK_UNITY,
-      w: 100,
-      h: 20,
-      z: 100,
-      text: 'Level ' + CurrentLevel,
-      cssClass: 'text'
-    })
-  );
-  addElement('Lives', 
-    new SPRITE({
-      x: GAME_WIDTH - 110,
-      y: BLOCK_UNITY,
-      w: 100,
-      h: 20,
-      z: 100,
-      text: 'Lives ' + Lives,
-      cssClass: 'text'
-    })
-  );
+function drawActoinScreenTexts() {
+  addElement('Kills', sKillsAction);
+  addElement('KillCount', sKillCountAction());
+  addElement('Level', sLevelAction());
+  addElement('Lives', sLivesAction());
+}
+
+function drawLevelCompletedText() {
+  addElement('level', sLevelN());
+  addElement('complete', sCompleted);
+  addElement('killed', sKilled());
+  addElement('accuracy', sAccuracy());
 }
 
 function drawExplosions() {

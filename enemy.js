@@ -1,5 +1,5 @@
 const ENEMY = function (type, x, y, spawnedAt, shootAt, loops) {
-  let spriteSheet = getEnemySprite(type);
+  let spriteSheet = getEnemySprite[type];
   let path = enemyPath({x, y, type});
   return new SPRITE({
     x,
@@ -56,54 +56,14 @@ const enemyPath = (enemy) => {
   }
 }
 
-const getEnemySprite = (type) => {
-  switch(type){
-    case 'topLeftTrain':
-      return {
-        sheet: 'enemy1-2.png',
-        totalFrames: 2,
-      }
-    case 'topDownRandom':
-      return {
-        sheet: 'enemy4-2.png',
-        totalFrames: 2,
-      }
-    case 'topRightTrain':
-      return {
-        sheet: 'enemy1-2.png',
-        totalFrames: 2,
-      }
-    case 'zigZagDown1':
-      return {
-        sheet: 'enemy7-18.png',
-        totalFrames: 18,
-      }
-    case 'zigZagDown2':
-      return {
-        sheet: 'enemy7-18.png',
-        totalFrames: 3,
-      }
-    case 'pathAngular':
-      return {
-        sheet: 'enemy2-4.png',
-        totalFrames: 4,
-      }
-    case 'pathAngular2':
-      return {
-        sheet: 'enemy2-4.png',
-        totalFrames: 4,
-      }
-    case 'randomLeftToRight':
-      return {
-        sheet: 'enemy5-3.png',
-        totalFrames: 3,
-      }
-    case 'randomRightToLeft':
-      return {
-        sheet: 'enemy5-3.png',
-        totalFrames: 2,
-      }
-    default:
-      return {};
-  }
+const getEnemySprite = {
+  'topLeftTrain': { sheet: 'enemy1-2.png', totalFrames: 2 },
+  'topDownRandom': { sheet: 'enemy4-2.png', totalFrames: 2 },
+  'topRightTrain': { sheet: 'enemy1-2.png', totalFrames: 2 },
+  'zigZagDown1': { sheet: 'enemy7-18.png', totalFrames: 18 },
+  'zigZagDown2': { sheet: 'enemy7-18.png', totalFrames: 3 },
+  'pathAngular': { sheet: 'enemy2-4.png', totalFrames: 4 },
+  'pathAngular2': { sheet: 'enemy2-4.png', totalFrames: 4 },
+  'randomLeftToRight': { sheet: 'enemy5-3.png', totalFrames: 3 },
+  'randomRightToLeft': { sheet: 'enemy5-3.png', totalFrames: 2 }
 }

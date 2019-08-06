@@ -36,6 +36,13 @@ function keyDown(e) {
       if(Screen === 'gameOver') {
         Screen = 'title';
       }
+
+      if(Screen === 'levelCompleted') {
+        CurrentLevel++;
+        Screen = 'levelStart';
+        MarkTime = GlobalTime;
+        SetNewGame = true;
+      }
       break;
     default:
       break;

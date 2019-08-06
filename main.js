@@ -36,8 +36,8 @@ function rolling() {
     case 'gameOver' :
       gameOverScreen();
     break;
-    case 'levelComplete':
-      levelCompleteScreen();
+    case 'levelCompleted':
+      levelCompletedScreen();
     break;
   }
 }
