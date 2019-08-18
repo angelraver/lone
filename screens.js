@@ -8,13 +8,27 @@ function titleScreen () {
 
 function levelStartScreen () {
   if(SetNewGame) {
+    GlobalIds = [];
+    ShootCount = 0;
+    Shoots = [];
+    EnemyCount = 0;
     Enemys = [];
+    EnemyShoots = [];
+    Explosions = [];
     Lives = 1;
     GameOver =  false;
-    Level = LevelConfig[CurrentLevel];
+    Level = LevelConfig(CurrentLevel);
     SetNewGame = false;
     KillCount = 0;
-    Hero = HERO();
+    Hero = new SPRITE({
+      x: GAME_WIDTH / 2 - BLOCK_UNITY / 2,
+      y: GAME_HEIGHT - GAME_HEIGHT / 5,
+      h: BLOCK_UNITY * 4,
+      w: BLOCK_UNITY * 4,
+      z: 20,
+      sheet: 'shipHero.png',
+      totalFrames: 6,
+    });
   }
   addElement('level', sLevelN());
   addElement('getready', sGetReady);
@@ -43,6 +57,7 @@ function actionScreen () {
   }
 
   if(Lives === 0 && MarkTime === 0) {
+    console.log('GAME OVER!')
     GameOver = true;
     MarkTime = GlobalTime;
   }
@@ -63,5 +78,6 @@ function levelCompletedScreen () {
 }
 
 function gameOverScreen () {
+  CurrentLevel = 1;
   addElement('gameover', sGameOver);
 }

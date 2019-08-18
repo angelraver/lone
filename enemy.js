@@ -7,6 +7,7 @@ const ENEMY = function (type, x, y, spawnedAt, shootAt, loops) {
     h: ENEMY_SIZE,
     w: ENEMY_SIZE,
     z: 20,
+    r: spriteSheet.r,
     sheet: spriteSheet.sheet,
     totalFrames: spriteSheet.totalFrames,
     path,
@@ -60,10 +61,10 @@ const getEnemySprite = {
   'topLeftTrain': { sheet: 'enemy1-2.png', totalFrames: 2 },
   'topDownRandom': { sheet: 'enemy4-2.png', totalFrames: 2 },
   'topRightTrain': { sheet: 'enemy1-2.png', totalFrames: 2 },
-  'zigZagDown1': { sheet: 'enemy7-18.png', totalFrames: 18 },
-  'zigZagDown2': { sheet: 'enemy7-18.png', totalFrames: 3 },
+  'zigZagDown1': { sheet: 'enemy1-2.png', totalFrames: 2 },
+  'zigZagDown2': { sheet: 'enemy1-2.png', totalFrames: 2 },
   'pathAngular': { sheet: 'enemy2-4.png', totalFrames: 4 },
   'pathAngular2': { sheet: 'enemy2-4.png', totalFrames: 4 },
-  'randomLeftToRight': { sheet: 'enemy5-3.png', totalFrames: 3 },
-  'randomRightToLeft': { sheet: 'enemy5-3.png', totalFrames: 2 }
+  'randomLeftToRight': { sheet: 'enemy7-18.png', totalFrames: 18 },
+  'randomRightToLeft': { sheet: 'enemy7-18.png', totalFrames: 18 }
 }

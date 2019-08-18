@@ -3,7 +3,7 @@ const SPRITE = function (props) {
   this.w = props.w;
   this.y = props.y;
   this.x = props.x;
-  this.hit = false;
+  this.z = props.z;
   this.sheet = props.sheet ? SPRITES_FOLDER + props.sheet : null;
   this.totalFrames = props.totalFrames;
   this.currentFrame = 0;
@@ -30,21 +30,10 @@ const SPRITE = function (props) {
   this.shooted = false;
   this.text = props.text;
   this.cssClass = props.cssClass;
-  this.z = props.z;
   this.backgroundSize = props.backgroundSize;
+  this.r = props.r;
+  this.rY = props.rY;
 };
-
-const HERO =  () => {
-  return  new SPRITE({
-    x: GAME_WIDTH / 2 - BLOCK_UNITY / 2,
-    y: GAME_HEIGHT - GAME_HEIGHT / 5,
-    h: BLOCK_UNITY * 4,
-    w: BLOCK_UNITY * 4,
-    z: 20,
-    sheet: 'shipHero.png',
-    totalFrames: 6,
-  });
-}
 
 var sGetReady = new SPRITE({
   x: 0,
@@ -144,12 +133,13 @@ const sKilled = () => {
 }
 
 const sAccuracy = () => {
+  const accuracy = ShootCount > 0 ? (100 / ShootCount) * KillCount : 0;
   return new SPRITE({
     x: 0,
     y: GAME_HEIGHT / 2 -25,
     w: GAME_WIDTH,
     h: 25,
-    text: 'ACCURACY: ' + ((100 / ShootCount) * KillCount).toFixed(2),
+    text: 'ACCURACY: ' + accuracy.toFixed(2),
     cssClass: 'text'
   });
 }

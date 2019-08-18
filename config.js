@@ -33,8 +33,11 @@ function addElement(id, sprite) {
     el.appendChild(document.createTextNode(sprite.text));
   }
 
-  if(sprite.rotate) {
-    el.style.transform = 'rotate(' + sprite.rotate + 'deg) rotateY(' + sprite.rotateY + 'deg)';
+  if(sprite.r) {
+    el.style.transform = 'rotate(' + sprite.r + 'deg) ';
+    if(sprite.rY) {
+      el.style.transform = 'rotate(' + sprite.r + 'deg) rotateY(' + sprite.rY + 'deg)';
+    }
   }
 
   gameFrame.appendChild(el);
@@ -51,14 +54,14 @@ function checkColisions() {
       }
     });
 
-    if(colision(enemy, Hero)){
+    if(colision(enemy, Hero) && !Hero.hit){
       Hero.hit = true;
       enemy.hit = true;
     }
   });
 
   EnemyShoots.map(function(enemyShoot) {
-    if(colision(enemyShoot, Hero)) {
+    if(colision(enemyShoot, Hero) && !Hero.hit) {
       Hero.hit = true;
       enemyShoot.hit = true;
     }

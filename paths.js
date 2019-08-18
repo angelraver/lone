@@ -1,10 +1,10 @@
 const buildCurve = (name, x, y, unity) => {
-  const RightDown =  (x, y, unity) => { return { x: x + unity / 4, y: y + unity / 4 } };
-  const Down = (x, y, unity) => { return { x: x, y: y + unity / 2 } };
-  const DownLeft = (x, y, unity) => { return { x: x - unity / 4, y: y + unity / 4 } };
-  const LeftUp = (x, y, unity) => { return { x: x - unity / 4, y: y - unity / 4 } };
-  const Up = (x, y, unity) => { return { x: x, y: y - unity / 2 } };
-  const UpRight = (x, y, unity) => { return { x: x + unity / 4, y: y - unity / 4 } };
+  const Up = (x, y, unity) => { return { x: x, y: y - unity / 2, r: 0 } };
+  const UpRight = (x, y, unity) => { return { x: x + unity / 4, y: y - unity / 4, r: 45 } };
+  const RightDown =  (x, y, unity) => { return { x: x + unity / 4, y: y + unity / 4, r: 135 } };
+  const Down = (x, y, unity) => { return { x: x, y: y + unity / 2, r: 180 } };
+  const DownLeft = (x, y, unity) => { return { x: x - unity / 4, y: y + unity / 4, r: 225 } };
+  const LeftUp = (x, y, unity) => { return { x: x - unity / 4, y: y - unity / 4, r: 315 } };
 
   let pattern = [];
   switch (name) {
@@ -48,6 +48,7 @@ const pathZigZagDown1 = (enemy) => {
     buildCurve('zigzag-down-right', enemy.x, enemy.y, BLOCK_UNITY).map(function(pos){
       enemy.y = pos.y;
       enemy.x = pos.x;
+      enemy.r = pos.r;
       positions.push(pos);
     });
   };
@@ -61,6 +62,7 @@ const pathZigZagDown2 = (enemy) => {
     buildCurve('zigzag-down-left', enemy.x, enemy.y, BLOCK_UNITY).map(function(pos){
       enemy.y = pos.y;
       enemy.x = pos.x;
+      enemy.r = pos.r;
       positions.push(pos);
     });
   };
@@ -74,11 +76,13 @@ const pathRightThenCurveToDownThenToLeft = (enemy) => {
     enemy.x = enemy.x + ENEMY_SPEED;
     positions.push({
       x: enemy.x,
-      y: enemy.y
+      y: enemy.y,
+      r: 90
     })
     i = i + ENEMY_SPEED
   }
   buildCurve('12-3-6', enemy.x, enemy.y, BLOCK_UNITY).map(function(pos){
+    enemy.r = pos.r;
     enemy.y = pos.y;
     positions.push(pos);
   });
@@ -86,7 +90,8 @@ const pathRightThenCurveToDownThenToLeft = (enemy) => {
     enemy.x = enemy.x - ENEMY_SPEED;
     positions.push({
       x: enemy.x,
-      y: enemy.y
+      y: enemy.y,
+      r: 270
     })
     i = i + ENEMY_SPEED
   }
@@ -99,7 +104,8 @@ const pathLeftThenCurveToUpThenToRight = (enemy) => {
     enemy.x = enemy.x - ENEMY_SPEED;
     positions.push({
       x: enemy.x,
-      y: enemy.y
+      y: enemy.y,
+      r: 270
     })
     i = i + ENEMY_SPEED
   }
@@ -111,7 +117,8 @@ const pathLeftThenCurveToUpThenToRight = (enemy) => {
     enemy.x = enemy.x + ENEMY_SPEED;
     positions.push({
       x: enemy.x,
-      y: enemy.y
+      y: enemy.y,
+      r: 90
     })
     i = i + ENEMY_SPEED
   }
@@ -149,11 +156,11 @@ const pathLinear = function (origin, target, speed) {
       countSeries = 0;
     }
 
-    let pos;
+    let pos = {};
     if(target.y < origin.y) {
-      pos = { y: origin.y - (speed * i) };
+      pos.y = origin.y - (speed * i);
     } else {
-      pos = { y: origin.y + (speed * i) };
+      pos.y = origin.y + (speed * i);
     }
     
     if(target.x < GAME_WIDTH / 2) {
@@ -182,7 +189,7 @@ const pathLinearSegment = function (origin, target, speed) {
   for(var i = 0; i < ySteps; i++) {
     y = y + speed;
     x = x + xSpeed;
-    positions.push({ x, y });
+    positions.push({ x, y, r: target.r });
   }
 
   return positions;
@@ -212,7 +219,7 @@ const pathLinearSegmentH = function (origin, target, speed) {
       y = y - ySpeed;
     }
 
-    positions.push({ x, y });
+    positions.push({ x, y, r: target.r });
   }
 
   return positions;
@@ -222,12 +229,12 @@ const pathAngular = (enemy) => {
   //path like this shape: <
   let step1 = pathLinearSegment(
     enemy,
-    { x: 0, y: (GAME_HEIGHT / 2) }, 
+    { x: 0, y: (GAME_HEIGHT / 2), r: 45 },
     ENEMY_SPEED
   );
   let step2 = pathLinearSegment(
     step1[step1.length -1],
-    { x: GAME_WIDTH, y: GAME_HEIGHT }, 
+    { x: GAME_WIDTH, y: GAME_HEIGHT, r: 315 },
     ENEMY_SPEED
   );
 
@@ -241,12 +248,12 @@ const pathAngular2 = (enemy) => {
   //path like this shape: >
   let step1 = pathLinearSegment(
     enemy,
-    { x: GAME_WIDTH - ENEMY_SIZE, y: (GAME_HEIGHT / 2) }, 
+    { x: GAME_WIDTH - ENEMY_SIZE, y: (GAME_HEIGHT / 2), r: 315 },
     ENEMY_SPEED
   );
   let step2 = pathLinearSegment(
     step1[step1.length -1],
-    { x: 0, y: GAME_HEIGHT }, 
+    { x: 0, y: GAME_HEIGHT, r: 45 },
     ENEMY_SPEED
   );
 

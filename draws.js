@@ -1,7 +1,7 @@
 function drawHero() {
   let MoveY = 0;
-  Hero.rotate = 0;
-  Hero.rotateY = 0;
+  Hero.r = 0;
+  Hero.rY = 0;
 
   if(Acelerate) {
     MoveY = topLimit(Hero) ? 0 : - speed;
@@ -21,13 +21,13 @@ function drawHero() {
   }
 
   if(Acelerate && KeyRight) {
-    Hero.rotate = 5;
-    Hero.rotateY = 15;
+    Hero.r = 5;
+    Hero.rY = 15;
   }
 
   if(Acelerate && KeyLeft) {
-    Hero.rotate = -5;
-    Hero.rotateY = -15;
+    Hero.r = -5;
+    Hero.rY = -15;
   }
 
   Hero.y = Hero.y + MoveY;
@@ -37,12 +37,9 @@ function drawHero() {
 
   if(Hero.hit) {
     if(Lives > 0) {
-      Hero.hit = false;
       Lives--;
       Explosions.push(EXPLOSION(Hero));
       playSound('explosion1.mp3');
-      Hero.x = -Hero.w;
-      Hero.y = -Hero.h;
     }
   } else {
     addElement('Hero', Hero);
@@ -127,6 +124,7 @@ function drawEnemys() {
     let pos = enemy.path[enemy.pathIndex];
     enemy.x = pos.x;
     enemy.y = pos.y;
+    enemy.r = pos.r;
     if(enemy.hit) {
       Explosions.push(EXPLOSION(enemy));
       playSound('explosion2.mp3');
