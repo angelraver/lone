@@ -67,10 +67,9 @@ function actionScreen () {
     MarkTime = 0;
   }
 
-    if(GlobalTime > Level.time && Enemys.length === 0) {
-      Screen = 'levelCompleted';
-    }
-
+  if(GlobalTime > Level.time && Enemys.length === 0) {
+    Screen = 'levelCompleted';
+  }
 }
 
 function levelCompletedScreen () {

@@ -39,7 +39,7 @@ function drawHero() {
     if(Lives > 0) {
       Lives--;
       Explosions.push(EXPLOSION(Hero));
-      playSound('explosion1.mp3');
+      playSound('explosion1');
     }
   } else {
     addElement('Hero', Hero);
@@ -57,7 +57,7 @@ function drawShoots() {
       sheet: 'shoot.png',
       totalFrames: 2
     }));
-    playSound('shoot1.mp3');
+    playSound('shoot1');
     Shoot = false;
     ShootCount++;
   }
@@ -112,23 +112,22 @@ function drawPlanet(speed) {
 }
 
 function drawEnemys() {
-  Level.enemys.map(function(enemy) {
-    if(enemy.spawnAt === GlobalTime && !enemy.spawned) {
-      Enemys.push(new ENEMY(enemy.type, enemy.x, enemy.y, enemy.spawnAt, enemy.shootAt, enemy.loops));
-      enemy.spawned = true;
-      EnemyCount++;
-    }
-  });
-  
+  loadLevelEnemys();
+ 
   Enemys.map(function(enemy, i) {
     let pos = enemy.path[enemy.pathIndex];
     enemy.x = pos.x;
     enemy.y = pos.y;
     enemy.r = pos.r;
     if(enemy.hit) {
-      Explosions.push(EXPLOSION(enemy));
-      playSound('explosion2.mp3');
-      Enemys.splice(i, 1);
+      enemy.hit = false;
+      enemy.hits++;
+      console.log('enemy hits:' + enemy.hits);
+      if(enemy.hits === 2) {
+        Explosions.push(EXPLOSION(enemy));
+        playSound('explosion2');
+        Enemys.splice(i, 1);
+      }
     } else {
 
       if(enemy.x + BLOCK_UNITY * 4 <= 0 || enemy.x >= GAME_WIDTH || enemy.y >= GAME_HEIGHT - BLOCK_UNITY) {
@@ -141,11 +140,11 @@ function drawEnemys() {
       } else {
         Enemys.splice(i, 1);
       }
-
-      if(enemy.spawnedAt + enemy.shootAt === GlobalTime && !enemy.shooted && !Hero.hit) {
-        enemy.shooted = true;
-        EnemyShoots.push(new ENEMYSHOOT(Hero, enemy)); 
-        playSound('shoot2.mp3');
+      
+      if(enemy.type === 'boss1') {
+        if(enemy.x % 14 === 0) {
+          EnemyShoots.push(new ENEMYSHOOT(Hero, enemy));
+        }
       }
     }
     enemy.pathIndex = enemy.pathIndex + 1 < enemy.path.length ? enemy.pathIndex + 1 : 0;

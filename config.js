@@ -1,6 +1,5 @@
 const BLOCK_UNITY = 10;
 const MINI_BLOCK_UNITY = 1;
-const GRAVITY = 5;
 const SPEED_BACKGROUND_1 = 3;
 const SHOOT_SPEED = 20;
 const ENEMY_SHOOT_SPEED = 10;
@@ -68,9 +67,25 @@ function checkColisions() {
   });
 }
 
-const playSound = function(soundFile) {
-  var audio = new Audio(SOUND_FOLDER + soundFile);
-  audio.play();
+const getSound = (sound) => {
+  switch(sound) {
+    case 'explosion1':
+      return 'explosion1.mp3'
+    case 'shoot1':
+      return 'shoot1.mp3'
+    case 'explosion2':
+      return 'explosion2.mp3'
+    case 'shoot2':
+      return 'shoot2.mp3'
+    case 'start':
+      return 'start.mp3'
+  }
+}
+
+const playSound = function(sound) {
+  console.log(sound)
+  let audio = new Audio(SOUND_FOLDER + getSound(sound));
+  // audio.play();
   audio = null;
 }
 

@@ -1,33 +1,39 @@
-const buildCurve = (name, x, y, unity) => {
-  const Up = (x, y, unity) => { return { x: x, y: y - unity / 2, r: 0 } };
-  const UpRight = (x, y, unity) => { return { x: x + unity / 4, y: y - unity / 4, r: 45 } };
-  const RightDown =  (x, y, unity) => { return { x: x + unity / 4, y: y + unity / 4, r: 135 } };
-  const Down = (x, y, unity) => { return { x: x, y: y + unity / 2, r: 180 } };
-  const DownLeft = (x, y, unity) => { return { x: x - unity / 4, y: y + unity / 4, r: 225 } };
-  const LeftUp = (x, y, unity) => { return { x: x - unity / 4, y: y - unity / 4, r: 315 } };
+const buildCurve = (name, x, y, unity, noRotate) => {
+  const U = (x, y, unity) => { return { x: x, y: y - unity / 2, r: 0 } };
+  const UR = (x, y, unity) => { return { x: x + unity / 4, y: y - unity / 4, r: 45 } };
+  const RD =  (x, y, unity) => { return { x: x + unity / 4, y: y + unity / 4, r: 135 } };
+  const D = (x, y, unity) => { return { x: x, y: y + unity / 2, r: 180 } };
+  const DL = (x, y, unity) => { return { x: x - unity / 4, y: y + unity / 4, r: 225 } };
+  const LU = (x, y, unity) => { return { x: x - unity / 4, y: y - unity / 4, r: 315 } };
 
   let pattern = [];
   switch (name) {
+    case '3-6':
+      pattern = [DL, DL, DL, DL, DL, DL, DL, DL, DL, DL, DL, DL, DL, DL, DL];
+    break;
+    case '6-9':
+      pattern = [LU, LU, LU, LU, LU, LU, LU, LU, LU, LU, LU, LU, LU, LU, LU];
+    break;
     case '12-3-6':
-      pattern = [RightDown, RightDown, RightDown, RightDown, Down, Down, Down, Down, Down, Down, DownLeft, DownLeft, DownLeft, DownLeft];
+      pattern = [RD, RD, RD, RD, D, D, D, D, D, D, DL, DL, DL, DL];
     break;
     case '6-9-12':
-      pattern = [LeftUp, LeftUp, LeftUp, LeftUp, Up, Up, Up, Up, Up, Up, UpRight, UpRight, UpRight, UpRight];
+      pattern = [LU, LU, LU, LU, U, U, U, U, U, U, UR, UR, UR, UR];
     break;
     case 'zigzag-down-right':
       pattern = [
-        RightDown, RightDown, RightDown, RightDown, RightDown, RightDown, RightDown, RightDown,
-        RightDown, RightDown, RightDown, RightDown, RightDown, RightDown, RightDown, RightDown,
-        DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft,
-        DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft
+        RD, RD, RD, RD, RD, RD, RD, RD,
+        RD, RD, RD, RD, RD, RD, RD, RD,
+        DL, DL, DL, DL, DL, DL, DL, DL,
+        DL, DL, DL, DL, DL, DL, DL, DL
       ];
     break;
     case 'zigzag-down-left':
       pattern = [
-        DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft,
-        DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft, DownLeft,
-        RightDown, RightDown, RightDown, RightDown, RightDown, RightDown, RightDown, RightDown,
-        RightDown, RightDown, RightDown, RightDown, RightDown, RightDown, RightDown, RightDown
+        DL, DL, DL, DL, DL, DL, DL, DL,
+        DL, DL, DL, DL, DL, DL, DL, DL,
+        RD, RD, RD, RD, RD, RD, RD, RD,
+        RD, RD, RD, RD, RD, RD, RD, RD
       ];
     break;
     default:
@@ -37,6 +43,9 @@ const buildCurve = (name, x, y, unity) => {
   let actualPostion = { x, y };
   pattern.map(function(p){
     actualPostion = p(actualPostion.x, actualPostion.y, unity);
+    if (noRotate) {
+      actualPostion.r = null
+    }
     positions.push(actualPostion);
   });
   return positions;
@@ -223,6 +232,24 @@ const pathLinearSegmentH = function (origin, target, speed) {
   }
 
   return positions;
+}
+
+const pathBoss1 = function (enemy, speed) {
+  const toRight = pathLinearSegmentH(enemy, { x: GAME_WIDTH - enemy.w, y: enemy.y}, speed)
+  const toRightLast = toRight[toRight.length - 1]
+  const toDown = buildCurve('3-6', toRightLast.x, toRightLast.y, speed * 2, true)
+  const toDownLast = toDown[toDown.length - 1]
+  const toLeft = pathLinearSegmentH({ x: toDownLast.x - BLOCK_UNITY, y: toDownLast.y }, { x: enemy.x + BLOCK_UNITY * 9, y: toDownLast.y }, speed)
+  const toLeftLast = toLeft[toLeft.length - 1]
+  const toUp = buildCurve('6-9', toLeftLast.x, toLeftLast.y, speed * 2, true)
+  const steps = [
+    ...toRight,
+    ...toDown,
+    ...toLeft,
+    ...toUp
+  ]
+
+  return steps
 }
 
 const pathAngular = (enemy) => {

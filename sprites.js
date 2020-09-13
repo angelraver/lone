@@ -19,6 +19,7 @@ const SPRITE = function (props) {
   this.path = props.path;
   this.pathIndex = 0;
   this.hit = false;
+  this.hits = 0;
   this.loops = props.loops;
   this.currentLoop = 0;
   this.canLoop = () =>  this.currentLoop < this.loops;
@@ -33,6 +34,7 @@ const SPRITE = function (props) {
   this.backgroundSize = props.backgroundSize;
   this.r = props.r;
   this.rY = props.rY;
+  this.type = props.type;
 };
 
 var sGetReady = new SPRITE({

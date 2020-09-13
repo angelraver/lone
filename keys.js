@@ -25,10 +25,10 @@ function keyDown(e) {
       if(Screen === 'action') {
         Pause = !Pause;
         if(Pause) {
-          playSound('start.mp3');
+          playSound('start');
           stop();
         } else {
-          playSound('start.mp3');
+          playSound('start');
           go();
         }
       }
