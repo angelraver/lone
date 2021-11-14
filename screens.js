@@ -1,4 +1,5 @@
 function titleScreen () {
+  // addElement('boos1', sSpider);
   sTitle.framing();
   addElement('gameName', sTitle);
   addElement('pressEnter', sPressEnter);

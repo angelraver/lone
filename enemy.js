@@ -78,3 +78,17 @@ const getEnemySprite = {
   'randomRightToLeft': { sheet: 'enemy7-18.png', totalFrames: 18 },
   'boss1': { sheet: 'boss1-1.png', totalFrames: 1 },
 }
+
+var sSpider = new SPRITE({
+  x: (GAME_WIDTH / 2) - 150,
+  y: GAME_HEIGHT / 4, 
+  w: 120,
+  h: 85,
+  z: 11,
+  sheet: 'boss1-1.png',
+  totalFrames: 3,
+  zoom: [
+    { x: 0, y: 0, h: 425, w: 600 },
+    { x: 200, y: 200, h: 85, w: 120 }
+  ]
+});

@@ -23,8 +23,16 @@ function addElement(id, sprite) {
   el.setAttribute("class", sprite.cssClass);
 
   if(sprite.sheet) {
-    el.style.background = 'url("' + sprite.sheet + '") 0 ' + sprite.sheetY + 'px';
+    el.style.background = 'url("' + sprite.sheet + '")';
+    // el.style.backgroundPosition = `0 ${sprite.sheetY}px `;
+    // el.style.backgroundSize = "cover";
   }
+  // if (sprite.zoomSteps.length > 0) {
+  //   let zoomState = sprite.zoomSteps.shift();
+  //   el.style.width = zoomState.w + 'px';
+  //   el.style.height = zoomState.h + 'px';
+  //   el.style.imageRendering = 'pixelated';
+  // }
 
   if(sprite.text) {
     el.setAttribute('class', sprite.cssClass);

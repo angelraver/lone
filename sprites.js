@@ -16,6 +16,38 @@ const SPRITE = function (props) {
       this.currentFrame = 0;
     }
   };
+  this.zoom = props.zoom,
+  this.zooming = function() {
+    let zoomSteps = [];
+    if(!this.zoom) return [];
+    for(let i = 0; i < this.zoom.length; i++){
+      if(i < this.zoom.length - 1) {
+        let currentState;
+        let stateOrigin = this.zoom[i];
+        let stateTarget = this.zoom[i + 1];
+        let zoomType = stateOrigin.w < stateTarget.w ? 'in' : 'out';
+        let steps = Math.abs((stateTarget.w - stateOrigin.w) / ENEMY_SPEED); // just based on w, not h
+        for(let ii = 0; ii < steps; ii++) {
+          currentState = zoomSteps.length > 0 ? zoomSteps[zoomSteps.length - 1] : stateOrigin;          
+          if(zoomType === 'in') {
+            step = {
+              w: currentState.w + ENEMY_SPEED,
+              h: currentState.h + ENEMY_SPEED
+            }
+          } else {
+            step = {
+              w: currentState.w - ENEMY_SPEED,
+              h: currentState.h > stateTarget.h ? currentState.h - (ENEMY_SPEED * 0.7) : currentState.h
+            }
+          }
+          zoomSteps.push(step);
+          console.log(ii + ': w: ' + step.w + ' - ' + ' h: ' + step.h);
+        }
+      }
+    }
+    return zoomSteps;
+  };
+  // this.zoomSteps = this.zooming();
   this.path = props.path;
   this.pathIndex = 0;
   this.hit = false;
@@ -37,146 +69,6 @@ const SPRITE = function (props) {
   this.type = props.type;
 };
 
-var sGetReady = new SPRITE({
-  x: 0,
-  y: GAME_HEIGHT / 2 -50,
-  w: GAME_WIDTH,
-  h: 25,
-  z: 30,
-  text: 'GET READY!',
-  cssClass: 'text'
-});
-
-var sTitle = new SPRITE({
-  x: (GAME_WIDTH / 2) - 150,
-  y: GAME_HEIGHT / 4, 
-  w: 300,
-  h: 50,
-  z: 11,
-  sheet: 'gamename.png',
-  totalFrames: 3
-});
-
-const sLevelN = () => {
-  return new SPRITE({
-    x: 0,
-    y: GAME_HEIGHT / 2 - 150,
-    w: GAME_WIDTH,
-    h: 25,
-    text: 'LEVEL ' + CurrentLevel,
-    cssClass: 'text'
-  });
-}
-
-const sCompleted = new SPRITE({
-  x: 0,
-  y: GAME_HEIGHT / 2 - 125,
-  w: GAME_WIDTH,
-  h: 25,
-  text: 'COMPLETED',
-  cssClass: 'text'
-});
-
-const sKillsAction = new SPRITE({
-  x: (GAME_WIDTH / 2) - 50,
-  y: BLOCK_UNITY,
-  w: 100,
-  h: 20,
-  z: 100,
-  text: 'KILLS',
-  cssClass: 'text'
-});
-
-const sKillCountAction = () => {
-  return new SPRITE({
-    x: (GAME_WIDTH / 2) - 50,
-    y: BLOCK_UNITY * 3,
-    w: 100,
-    h: 20,
-    z: 100,
-    text: KillCount,
-    cssClass: 'text'
-  });
-};
-
-const sLevelAction = () => {
-  return new SPRITE({
-    x: (GAME_WIDTH / 10) - 50,
-    y: BLOCK_UNITY,
-    w: 100,
-    h: 20,
-    z: 100,
-    text: 'LEVEL ' + CurrentLevel,
-    cssClass: 'text'
-  });
-};
-
-const sLivesAction = () => {
-  return new SPRITE({
-    x: GAME_WIDTH - 110,
-    y: BLOCK_UNITY,
-    w: 100,
-    h: 20,
-    z: 100,
-    text: 'LIVES ' + Lives,
-    cssClass: 'text'
-  });
-};
-
-const sKilled = () => {
-  return new SPRITE({
-    x: 0,
-    y: GAME_HEIGHT / 2 -50,
-    w: GAME_WIDTH,
-    h: 25,
-    text: 'ENEMYS KILLED: ' + KillCount,
-    cssClass: 'text'
-  })
-}
-
-const sAccuracy = () => {
-  const accuracy = ShootCount > 0 ? (100 / ShootCount) * KillCount : 0;
-  return new SPRITE({
-    x: 0,
-    y: GAME_HEIGHT / 2 -25,
-    w: GAME_WIDTH,
-    h: 25,
-    text: 'ACCURACY: ' + accuracy.toFixed(2),
-    cssClass: 'text'
-  });
-}
-
-const sCopyr = new SPRITE({
-  x: 0,
-  y: GAME_HEIGHT - (GAME_HEIGHT / 10),
-  w: GAME_WIDTH,
-  h: 15,
-  z: 30,
-  text: 'raver games 2019',
-  cssClass: 'text'
-});
-
-const sPressEnter = new SPRITE({
-  x: 0,
-  y: GAME_HEIGHT / 2,
-  w: GAME_WIDTH,
-  h: 25,
-  z: 30,
-  text: 'PRESS ENTER',
-  cssClass: 'text'
-});
-
-
-var sGameOver = new SPRITE({
-  x: 0,
-  y: GAME_HEIGHT / 2 - 10,
-  w: GAME_WIDTH,
-  h: 20,
-  z: 30,
-  text: 'GAME OVER',
-  cssClass: 'text'
-});
-
 const EXPLOSION = (origin) => {
   return new SPRITE({
     x: origin.x,
@@ -188,27 +80,4 @@ const EXPLOSION = (origin) => {
     totalFrames: 5,
     loops: 1
   })
-}
-
-const STAR_LINE = function() {
-  let blocks = '';
-  for(let i = 0; i < GAME_WIDTH / BLOCK_UNITY; i++) {
-    let block = random(10) === 1 ? random(8) + 1 : ' ';
-    blocks = blocks +  block;
-  }
-  this.blocks = blocks;
-  this.y = 0;
-}
-
-var Jupiter = () => {
-  return new SPRITE({
-    x: GAME_WIDTH / 3,
-    y: -GAME_HEIGHT,
-    w: GAME_WIDTH,
-    h: GAME_HEIGHT,
-    z: 10,
-    sheet: 'jupiter.png',
-    totalFrames: 1,
-    cssClass: 'planet'
-  });
 }
