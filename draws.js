@@ -42,7 +42,7 @@ function drawHero() {
       playSound('explosion1');
     }
   } else {
-    addElement('Hero', Hero);
+    addElement(Hero);
   }
 }
 
@@ -72,37 +72,8 @@ function drawShoots() {
       shoot.y = shoot.y - SHOOT_SPEED;
       DiscardShoot = shoot.y < 0;
       shoot.framing();
-      addElement('shoot' + i, shoot);
+      addElement(shoot);
     }
-  });
-}
-
-function drawStars(speed) {
-  if(AddStarLine) {
-    StarLines.push(new STAR_LINE());
-  }
-
-  if(StarLines.length === 8){
-    StarLines.shift();
-  }
-  
-  StarLines.map(function(starLine) {
-    starLine.y = starLine.y + speed;
-    AddStarLine = GAME_HEIGHT / 6 - starLine.y < 3;
-    starLine.blocks.split('').map(function (block, i) {
-      let star = new SPRITE({
-        x: i * BLOCK_UNITY,
-        y: starLine.y - (parseInt(block) * 10),
-        h: 3,
-        w: 3,
-        z: 0,
-        sheet: 'star.png',
-        totalFrames: 1
-      });
-      if(block !== ' ') {
-        addElement('backgoundStar' + i, star);
-      }
-    });
   });
 }
 
@@ -123,7 +94,7 @@ function drawEnemys() {
       enemy.hit = false;
       enemy.hits++;
       console.log('enemy hits:' + enemy.hits);
-      if(enemy.hits === 2) {
+      if(enemy.hits === enemy.hitsLimit) {
         Explosions.push(EXPLOSION(enemy));
         playSound('explosion2');
         Enemys.splice(i, 1);
@@ -136,16 +107,16 @@ function drawEnemys() {
 
       if(enemy.canLoop()) {
         enemy.framing();
-        addElement('enemy' + i, enemy);
+        addElement(enemy);
       } else {
         Enemys.splice(i, 1);
       }
       
-      if(enemy.type === 'boss1') {
-        if(enemy.x % 14 === 0) {
-          EnemyShoots.push(new ENEMYSHOOT(Hero, enemy));
-        }
-      }
+      // if(enemy.type === 'boss1') {
+      //   if(enemy.x % 14 === 0) {
+      //     EnemyShoots.push(new ENEMYSHOOT(Hero, enemy));
+      //   }
+      // }
     }
     enemy.pathIndex = enemy.pathIndex + 1 < enemy.path.length ? enemy.pathIndex + 1 : 0;
   });
@@ -157,26 +128,12 @@ function drawEnemyShoots() {
     enemyShoot.x = pos.x;
     enemyShoot.y = pos.y;
     enemyShoot.framing();
-    addElement('enemyshoot' + i, enemyShoot);
+    addElement(enemyShoot);
     enemyShoot.pathIndex = enemyShoot.pathIndex + 1;
     if(enemyShoot.pathIndex === enemyShoot.path.length || enemyShoot.hit) {
       EnemyShoots.splice(i, 1);
     }
   });
-}
-
-function drawActoinScreenTexts() {
-  addElement('Kills', sKillsAction);
-  addElement('KillCount', sKillCountAction());
-  addElement('Level', sLevelAction());
-  addElement('Lives', sLivesAction());
-}
-
-function drawLevelCompletedText() {
-  addElement('level', sLevelN());
-  addElement('complete', sCompleted);
-  addElement('killed', sKilled());
-  addElement('accuracy', sAccuracy());
 }
 
 function drawExplosions() {
@@ -186,7 +143,7 @@ function drawExplosions() {
         explosion.looping();
       }
       explosion.framing();
-      addElement('enemy' + i, explosion);
+      addElement(explosion);
     } else {
       Explosions.splice(i, 1);
     }

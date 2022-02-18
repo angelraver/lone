@@ -2,7 +2,6 @@ var GlobalTime = 0;
 var MarkTime = 0;
 var speed = 5;
 
-var GlobalIds = [];
 var ShootCount = 0;
 var Shoots = [];
 var EnemyCount = 0;
@@ -20,6 +19,8 @@ var GameOver = false;
 var Pause = false;
 var SetNewGame = false;
 
+var Enter = false;
+
 var KeyLeft = false;
 var KeyRight = false;
 var Acelerate = false;
@@ -27,6 +28,5 @@ var Break = false;
 var Shoot = false;
 
 var Hero;
-var StarLines = starLinesBegin;
-var AddStarLine = false;
+
 var DiscardShoot = false;

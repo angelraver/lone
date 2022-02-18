@@ -16,12 +16,7 @@ function keyDown(e) {
       Shoot = true;
       break;
     case 'Enter':
-      if(Screen === 'title') {
-        Screen = 'levelStart';
-        MarkTime = GlobalTime;
-        SetNewGame = true;
-      }
-
+      Enter = true;
       if(Screen === 'action') {
         Pause = !Pause;
         if(Pause) {
@@ -31,17 +26,6 @@ function keyDown(e) {
           playSound('start');
           go();
         }
-      }
-
-      if(Screen === 'gameOver') {
-        Screen = 'title';
-      }
-
-      if(Screen === 'levelCompleted') {
-        CurrentLevel++;
-        Screen = 'levelStart';
-        MarkTime = GlobalTime;
-        SetNewGame = true;
       }
       break;
     default:
@@ -65,6 +49,9 @@ function keyUp(e) {
       break;
     case 'KeyX':
       Shoot = false;
+      break;
+    case 'Enter':
+      Enter = false;
       break;
     default:
       break;

@@ -1,6 +1,6 @@
 @font-face {
   font-family: ArcadeClassic;
-  src: url(arcadeClassic.ttf);
+  src: url(./arcadeClassic.ttf);
 }
 
 body {
@@ -17,6 +17,7 @@ body {
   position: relative;
   background: #000;
   display: block;
+  float: left;
   margin: 1% auto;
   overflow: hidden;
 }

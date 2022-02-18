@@ -6,100 +6,27 @@ const ENEMY_SHOOT_SPEED = 10;
 const GAME_SPEED = 45;
 const GAME_WIDTH = 500;
 const GAME_HEIGHT = 700;
-const JUMP_HEIGHT = BLOCK_UNITY * 3;
+const GAME_MID_H =  GAME_WIDTH / 2;
+const GAME_MID_V =  GAME_HEIGHT / 2;
 const ENEMY_SPEED = 6;
 const ENEMY_SIZE = BLOCK_UNITY * 4;
-const SPRITES_FOLDER = './sprites/';
-const SOUND_FOLDER = './sounds/';
+const SPRITES_FOLDER = './assets/sprites/';
+const SOUND_FOLDER = './assets/sounds/';
 
-function addElement(id, sprite) { 
-  var el = document.createElement("div"); 
-  el.setAttribute('id', id);
-  el.style.top = sprite.y + 'px';
-  el.style.left = sprite.x + 'px';
-  el.style.width = sprite.w + 'px';
-  el.style.height = sprite.h + 'px';
-  el.style.zIndex = sprite.z;
-  el.setAttribute("class", sprite.cssClass);
+const canvas = document.getElementById('canvas');
+canvas.width = GAME_WIDTH;
+canvas.height = GAME_HEIGHT;
+const ctx = canvas.getContext("2d");
 
-  if(sprite.sheet) {
-    el.style.background = 'url("' + sprite.sheet + '")';
-    // el.style.backgroundPosition = `0 ${sprite.sheetY}px `;
-    // el.style.backgroundSize = "cover";
-  }
-  // if (sprite.zoomSteps.length > 0) {
-  //   let zoomState = sprite.zoomSteps.shift();
-  //   el.style.width = zoomState.w + 'px';
-  //   el.style.height = zoomState.h + 'px';
-  //   el.style.imageRendering = 'pixelated';
-  // }
-
-  if(sprite.text) {
-    el.setAttribute('class', sprite.cssClass);
-    el.style.fontSize = sprite.h + 'px';
-    el.appendChild(document.createTextNode(sprite.text));
-  }
-
-  if(sprite.r) {
-    el.style.transform = 'rotate(' + sprite.r + 'deg) ';
-    if(sprite.rY) {
-      el.style.transform = 'rotate(' + sprite.r + 'deg) rotateY(' + sprite.rY + 'deg)';
-    }
-  }
-
-  gameFrame.appendChild(el);
-  GlobalIds.push(id);
+const SOUND = {
+  ['explosion1']: 'explosion1.mp3',
+  ['shoot1']: 'shoot1.mp3',
+  ['explosion2']: 'explosion2.mp3',
+  ['shoot2']: 'shoot2.mp3',
+  ['start']: 'start.mp3'
 }
 
-function checkColisions() {
-  Enemys.map(function(enemy, i){
-    Shoots.map(function(shoot, ii){
-      if(colision(enemy, shoot)){
-        KillCount++;
-        enemy.hit = true;
-        shoot.hit = true;
-      }
-    });
-
-    if(colision(enemy, Hero) && !Hero.hit){
-      Hero.hit = true;
-      enemy.hit = true;
-    }
-  });
-
-  EnemyShoots.map(function(enemyShoot) {
-    if(colision(enemyShoot, Hero) && !Hero.hit) {
-      Hero.hit = true;
-      enemyShoot.hit = true;
-    }
-  });
-}
-
-const getSound = (sound) => {
-  switch(sound) {
-    case 'explosion1':
-      return 'explosion1.mp3'
-    case 'shoot1':
-      return 'shoot1.mp3'
-    case 'explosion2':
-      return 'explosion2.mp3'
-    case 'shoot2':
-      return 'shoot2.mp3'
-    case 'start':
-      return 'start.mp3'
-  }
-}
-
-const playSound = function(sound) {
-  console.log(sound)
-  let audio = new Audio(SOUND_FOLDER + getSound(sound));
-  // audio.play();
-  audio = null;
-}
-
-const random = function (limit) {
-  return Math.floor(Math.random() * limit);
-}
+const random = (limit) => Math.floor(Math.random() * limit);
 
 const colision = (a, b) => {
   return a.x + a.w > b.x &&
@@ -112,30 +39,3 @@ const topLimit = (shape) => shape.y < BLOCK_UNITY;
 const rightLimit = (shape) => shape.x + shape.w + BLOCK_UNITY >= GAME_WIDTH;
 const bottomLimit = (shape) => shape.y + shape.h >= GAME_HEIGHT - BLOCK_UNITY;
 const leftLimit = (shape) => shape.x - BLOCK_UNITY <= 0;
-
-var starLinesBegin = [
-  {
-    blocks: " 1            5                3      4 ",
-    y: 570
-  },
-  {
-    blocks: "                      4   6             ",
-    y: 470
-  },
-  {
-    blocks: "   66      6  1  2     2 6  6           ",
-    y: 370
-  },
-  {
-    blocks: "  4      5    32                       7",
-    y: 270
-  },
-  {
-    blocks: "                       8        6       ",
-    y: 170
-  },
-  {
-    blocks: "               861          6           ",
-    y: 70
-  }
-];

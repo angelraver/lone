@@ -1,14 +1,3 @@
-var gameFrame = document.getElementById('game');
-gameFrame.style.width = GAME_WIDTH + 'px';
-gameFrame.style.height = GAME_HEIGHT + 'px';
-
-function clearGameFrame() {
-  GlobalIds.map(function(id){
-    gameFrame.removeChild(document.getElementById(id));
-  });
-  GlobalIds = [];
-}
-
 function timing() {
   GlobalTime = GlobalTime + .5;
 }
@@ -26,19 +15,19 @@ function rolling() {
   switch(Screen) {
     case 'title' :
       titleScreen();
-    break;
-    case 'action' :
-      actionScreen();
-    break;
+      break;
     case 'levelStart' :
       levelStartScreen();
-    break;
+      break;
+    case 'action' :
+      actionScreen();
+      break;
     case 'gameOver' :
       gameOverScreen();
-    break;
+      break;
     case 'levelCompleted':
       levelCompletedScreen();
-    break;
+      break;
   }
 }
 
@@ -47,4 +36,3 @@ document.body.addEventListener('keyup', keyUp);
 
 setInterval(timing, 500);
 var start = setInterval(rolling, GAME_SPEED);
-

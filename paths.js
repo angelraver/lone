@@ -172,7 +172,7 @@ const pathLinear = function (origin, target, speed) {
       pos.y = origin.y + (speed * i);
     }
     
-    if(target.x < GAME_WIDTH / 2) {
+    if(target.x < GAME_MID_H) {
       pos.x = origin.x - (speed / 4 * currentXSerie);
     } else {
       pos.x = origin.x + (speed / 4 * currentXSerie);
@@ -256,7 +256,7 @@ const pathAngular = (enemy) => {
   //path like this shape: <
   let step1 = pathLinearSegment(
     enemy,
-    { x: 0, y: (GAME_HEIGHT / 2), r: 45 },
+    { x: 0, y: GAME_MID_V, r: 45 },
     ENEMY_SPEED
   );
   let step2 = pathLinearSegment(
@@ -275,7 +275,7 @@ const pathAngular2 = (enemy) => {
   //path like this shape: >
   let step1 = pathLinearSegment(
     enemy,
-    { x: GAME_WIDTH - ENEMY_SIZE, y: (GAME_HEIGHT / 2), r: 315 },
+    { x: GAME_WIDTH - ENEMY_SIZE, y: GAME_MID_V, r: 315 },
     ENEMY_SPEED
   );
   let step2 = pathLinearSegment(
