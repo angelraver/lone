@@ -65,7 +65,7 @@ class SPRITE {
               }
             }
             zoomSteps.push(step);
-            console.log(ii + ': w: ' + step.w + ' - ' + ' h: ' + step.h);
+            // console.log(ii + ': w: ' + step.w + ' - ' + ' h: ' + step.h);
           }
         }
       }

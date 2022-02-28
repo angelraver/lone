@@ -1,5 +1,5 @@
 const ENEMY = function ({ type, h, w, x, y, s, spawnedAt, shootAt, loops, hitsLimit }) {
-  let spriteSheet = getEnemySprite[type];
+  let spriteSheet = getEnemySheet[type];
   let path = enemyPath({x, y, s, w, h, type});
   return new SPRITE({
     x,
@@ -67,7 +67,7 @@ const enemyPath = (enemy) => {
   }
 }
 
-const getEnemySprite = {
+const getEnemySheet = {
   'topLeftTrain': { sheet: 'enemy1-2.png', totalFrames: 2 },
   'topDownRandom': { sheet: 'enemy4-2.png', totalFrames: 2 },
   'topRightTrain': { sheet: 'enemy1-2.png', totalFrames: 2 },
@@ -77,7 +77,7 @@ const getEnemySprite = {
   'pathAngular2': { sheet: 'enemy2-4.png', totalFrames: 4 },
   'randomLeftToRight': { sheet: 'enemy7-18.png', totalFrames: 18 },
   'randomRightToLeft': { sheet: 'enemy7-18.png', totalFrames: 18 },
-  'boss1': { sheet: 'boss1-1.png', totalFrames: 1 },
+  'boss1': { sheet: 'boss1.png', totalFrames: 4 },
 }
 
 const getEnemySpeed = (type) => {
@@ -86,17 +86,3 @@ const getEnemySpeed = (type) => {
       return ENEMY_SPEED;
   }
 }
-
-// var sSpider = new SPRITE({
-//   x: (GAME_MID_H) - 150,
-//   y: GAME_HEIGHT / 4, 
-//   w: 120,
-//   h: 85,
-//   z: 11,
-//   sheet: 'boss1-1.png',
-//   totalFrames: 3,
-//   zoom: [
-//     { x: 0, y: 0, h: 425, w: 600 },
-//     { x: 200, y: 200, h: 85, w: 120 }
-//   ]
-// });

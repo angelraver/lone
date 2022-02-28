@@ -8,7 +8,7 @@ function levelStartScreen () {
     Explosions = [];
     Lives = 1;
     GameOver =  false;
-    Level = LevelConfig(CurrentLevel);
+    Level = GetLevelConfig(CurrentLevel);
     SetNewGame = false;
     KillCount = 0;
     Hero = new SPRITE({
@@ -23,7 +23,6 @@ function levelStartScreen () {
   }
   addElement(sLevelN());
   addElement(sGetReady());
-  // drawStars(5);
 
   if(GlobalTime - MarkTime === 3) {
     Screen = 'action';

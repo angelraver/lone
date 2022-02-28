@@ -84,7 +84,6 @@ function drawPlanet(speed) {
 
 function drawEnemys() {
   loadLevelEnemys();
- 
   Enemys.map(function(enemy, i) {
     let pos = enemy.path[enemy.pathIndex];
     enemy.x = pos.x;
@@ -93,7 +92,9 @@ function drawEnemys() {
     if(enemy.hit) {
       enemy.hit = false;
       enemy.hits++;
-      console.log('enemy hits:' + enemy.hits);
+      if(enemy.hits >= (enemy.hitsLimit / 2) && enemy.type === 'boss1') {
+        enemy.totalFrames = Boss.totalFramesExtended;
+      }
       if(enemy.hits === enemy.hitsLimit) {
         Explosions.push(EXPLOSION(enemy));
         playSound('explosion2');
@@ -101,24 +102,38 @@ function drawEnemys() {
       }
     } else {
 
-      if(enemy.x + BLOCK_UNITY * 4 <= 0 || enemy.x >= GAME_WIDTH || enemy.y >= GAME_HEIGHT - BLOCK_UNITY) {
-        enemy.looping();
-      }
-
-      if(enemy.canLoop()) {
-        enemy.framing();
-        addElement(enemy);
-      } else {
-        Enemys.splice(i, 1);
-      }
-      
-      // if(enemy.type === 'boss1') {
-      //   if(enemy.x % 14 === 0) {
-      //     EnemyShoots.push(new ENEMYSHOOT(Hero, enemy));
-      //   }
-      // }
+    // it goes out of screen?
+    if(enemy.x + BLOCK_UNITY * 4 <= 0 || enemy.x >= GAME_WIDTH || enemy.y >= GAME_HEIGHT - BLOCK_UNITY) {
+      enemy.looping();
     }
+    // it appears again?
+    if(enemy.canLoop()) {
+      enemy.framing();
+      addElement(enemy);
+    } else {
+      Enemys.splice(i, 1);
+    }
+    
+    if(enemy.type === 'boss1') {
+      if(enemy.x % 14 === 0) {
+        EnemyShoots.push(new ENEMYSHOOT(Hero, enemy));
+      }
+    }
+  }
     enemy.pathIndex = enemy.pathIndex + 1 < enemy.path.length ? enemy.pathIndex + 1 : 0;
+  });
+}
+
+function loadLevelEnemys() {  
+  Level.enemys.map(function(enemy) {
+    if(enemy.spawnAt === GlobalTime && !enemy.spawned) {
+      if(enemy.type === 'boss1') {
+        Boss = enemy;
+      } 
+      Enemys.push(new ENEMY(enemy));
+      enemy.spawned = true;
+      EnemyCount++;
+    }
   });
 }
 

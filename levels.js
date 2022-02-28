@@ -1,13 +1,3 @@
-const loadLevelEnemys = () => {
-  Level.enemys.map(function(enemy) {
-    if(enemy.spawnAt === GlobalTime && !enemy.spawned) {
-      Enemys.push(new ENEMY(enemy));
-      enemy.spawned = true;
-      EnemyCount++;
-    }
-  });
-}
-
 const train = (timeStart, timeGap, units, type, x, y, shoot, loop) => {
   let enemys = [];
   let spawnAt = timeStart;
@@ -43,26 +33,14 @@ const train = (timeStart, timeGap, units, type, x, y, shoot, loop) => {
   return enemys;
 }
 
-const boss = {
-  type: "boss1",
-  h: 85,
-  w: 120,
-  x: 0,
-  y: BLOCK_UNITY * 10,
-  s: 12,
-  loops: 1,
-  shootAt: 3,
-  spawnAt: 0,
-  spawned: false
-}
 
-const LevelConfig = (n) => {
+
+const GetLevelConfig = (n) => {
   const levels = {
     1: {
       time: 70,
       enemys: [
-        // boss
-        ...train(1, 1, 30, 'topDownRandom', null, 0, -1, 1),
+        ...train(1, 1, 30, 'topDownRandom', null, 0, -1, 1),        
         ...train(5, .5, 5, 'topLeftTrain', -ENEMY_SIZE, BLOCK_UNITY * 4, -1, 2),
         ...train(10, .5, 5, 'pathAngular', GAME_WIDTH - ENEMY_SIZE, 0, 1, 1),
         ...train(15, .5, 5, 'pathAngular2',  -ENEMY_SIZE, 0, 1, 1),
@@ -75,6 +53,7 @@ const LevelConfig = (n) => {
         ...train(55, .5, 5, 'topLeftTrain', 0, BLOCK_UNITY * 6, 5, 2),
         ...train(60, .5, 5, 'randomLeftToRight', 0, null, 5, 1),
         ...train(65, .5, 5, 'randomRightToLeft', GAME_WIDTH, null, 5, 1),
+        getBoss(n, 75)
       ]
     },
     2: {
@@ -116,3 +95,24 @@ const LevelConfig = (n) => {
 
   return levels[n];
 }
+
+const getBoss = (levelN, spawnAt) => {
+  const BOSSES = {
+    1: {
+        type: "boss1",
+        h: 85,
+        w: 120,
+        x: 0,
+        y: BLOCK_UNITY * 10,
+        s: 12,
+        loops: 1,
+        shootAt: 3,
+        spawnAt,
+        spawned: false,
+        hitsLimit: 5,
+        totalFramesExtended: 8
+      }
+  };
+  return BOSSES[levelN];
+}
+

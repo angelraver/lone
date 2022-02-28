@@ -3,7 +3,7 @@ function actionScreen () {
   drawActionScreenTexts();
   drawStars(5);
   // drawPlanet(.5);
-  drawEnemyShoots();
+  // drawEnemyShoots();
   drawEnemys();
   drawExplosions();
 

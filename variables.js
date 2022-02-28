@@ -28,5 +28,6 @@ var Break = false;
 var Shoot = false;
 
 var Hero;
+var Boss;
 
 var DiscardShoot = false;
