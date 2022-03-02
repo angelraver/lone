@@ -13,7 +13,6 @@ const sGameOver = () => {
     y: GAME_MID_V - 10,
     w: GAME_WIDTH,
     h: 20,
-    z: 30,
     text: 'G A M E  O V E R'
   });
 }

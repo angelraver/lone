@@ -4,7 +4,6 @@ class SPRITE {
     this.w = props.w;
     this.y = props.y;
     this.x = props.x;
-    this.z = props.z;
     if(props.sheet) {
       var img = new Image();
       img.src = SPRITES_FOLDER + props.sheet;
@@ -81,7 +80,6 @@ const EXPLOSION = (origin) => {
     y: origin.y,
     w: origin.w,
     h: origin.h,
-    z: 20,
     sheet: 'explosion1.png',
     totalFrames: 5,
     loops: 1

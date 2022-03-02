@@ -5,7 +5,6 @@ var Jupiter = () => {
     y: -GAME_HEIGHT,
     w: GAME_WIDTH,
     h: GAME_HEIGHT,
-    z: 10,
     sheet: 'jupiter.png',
     totalFrames: 1,
   });
@@ -29,7 +28,6 @@ function drawStars(speed) {
           y: starLine.y - (parseInt(block) * 10),
           h: 30,
           w: 30,
-          z: 0,
           text: "."
         }));
       }

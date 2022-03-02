@@ -16,7 +16,6 @@ function levelStartScreen () {
       y: GAME_HEIGHT - GAME_HEIGHT / 5,
       h: BLOCK_UNITY * 4,
       w: BLOCK_UNITY * 4,
-      z: 20,
       sheet: 'shipHero.png',
       totalFrames: 6,
     });
@@ -37,7 +36,6 @@ var sGetReady = () => {
     y: GAME_MID_V - 50,
     w: GAME_WIDTH,
     h: 25,
-    z: 30,
     text: 'G E T  R E A D Y !'
   });
 }

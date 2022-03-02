@@ -39,7 +39,6 @@ const sKillCountAction = () => {
     y: BLOCK_UNITY * 3,
     w: 100,
     h: 20,
-    z: 100,
     text: `K I L L S  ${KillCount}`
   });
 };
@@ -50,7 +49,6 @@ const sLevelAction = () => {
     y: BLOCK_UNITY * 3,
     w: 100,
     h: 20,
-    z: 100,
     text: 'L E V E L  ' + CurrentLevel
   });
 };
@@ -61,7 +59,6 @@ const sLivesAction = () => {
     y: BLOCK_UNITY * 3,
     w: 100,
     h: 20,
-    z: 100,
     text: 'L I V E S ' + Lives
   });
 };

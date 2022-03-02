@@ -53,7 +53,6 @@ function drawShoots() {
       y: Hero.y,
       h: BLOCK_UNITY,
       w: BLOCK_UNITY,
-      z: 20,
       sheet: 'shoot.png',
       totalFrames: 2
     }));
@@ -81,7 +80,10 @@ function drawPlanet(speed) {
   Jupiter.y = Jupiter.y + speed;
   addElement('jupiter', Jupiter);
 }
-
+let lastEnemy;
+let BOSS_KILLED = false;
+let BOSS_EXPLOSIONS_LOADED = false;
+let BOSS_EXPOSION_ONE = true;
 function drawEnemys() {
   loadLevelEnemys();
   Enemys.map(function(enemy, i) {
@@ -96,12 +98,19 @@ function drawEnemys() {
         enemy.totalFrames = Boss.totalFramesExtended;
       }
       if(enemy.hits === enemy.hitsLimit) {
-        Explosions.push(EXPLOSION(enemy));
+        if (enemy.type === 'boss1') { // multiple explosions at the boss possition
+          let explosions = getExplosions(enemy);
+          explosions.forEach(function (explosion) {
+            Explosions.push(EXPLOSION(explosion));
+          });
+          BOSS_KILLED = true;
+        } else { // one explosion at the enemys possition
+          Explosions.push(EXPLOSION({ ...enemy }));
+        }
         playSound('explosion2');
         Enemys.splice(i, 1);
       }
     } else {
-
     // it goes out of screen?
     if(enemy.x + BLOCK_UNITY * 4 <= 0 || enemy.x >= GAME_WIDTH || enemy.y >= GAME_HEIGHT - BLOCK_UNITY) {
       enemy.looping();
@@ -121,7 +130,20 @@ function drawEnemys() {
     }
   }
     enemy.pathIndex = enemy.pathIndex + 1 < enemy.path.length ? enemy.pathIndex + 1 : 0;
+    lastEnemy = enemy;
   });
+}
+
+const getExplosions = (enemy) => {
+  const explosions = [];
+  const limit = 10;
+  let boom = { ...enemy, w: BLOCK_UNITY * 4, h: BLOCK_UNITY * 4 };
+  let bossExplosionsPositions = BOSS_EXPOSION_ONE ? bossExplosions : bossExplosions2;
+  BOSS_EXPOSION_ONE = !BOSS_EXPOSION_ONE;
+  bossExplosionsPositions.map((e) => {
+    explosions.push({ ...boom, x: boom.x + (BLOCK_UNITY * e.x), y: boom.y + (BLOCK_UNITY * e.y) })
+  });
+  return explosions;
 }
 
 function loadLevelEnemys() {  
@@ -152,6 +174,18 @@ function drawEnemyShoots() {
 }
 
 function drawExplosions() {
+  if (BOSS_KILLED) {
+    addElement(lastEnemy);
+    lastEnemy.framing();
+    if (GlobalTime % 1 === 0.5 || GlobalTime % 1 === 0) {
+      if (!BOSS_EXPLOSIONS_LOADED) {
+        getExplosions(lastEnemy).forEach(function (explosion) {
+          Explosions.push(EXPLOSION(explosion));
+        });
+        BOSS_EXPLOSIONS_LOADED = true;
+      }
+    }
+  }
   Explosions.map(function (explosion, i){
     if(explosion.canLoop()) {
       if(explosion.currentFrame === explosion.totalFrames - 1) {
@@ -163,4 +197,18 @@ function drawExplosions() {
       Explosions.splice(i, 1);
     }
   });
+  if (Explosions.length === 0) {
+    BOSS_EXPLOSIONS_LOADED = false;
+  }
 }
+
+const bossExplosions = [
+  { x: 0, y: 0 }, { x:4, y: 0}, { x:8, y: 0 },
+  { x: -2, y: 2 }, { x:2, y: 2 }, { x: 6, y: 2 }, { x: 10, y: 2 },
+  { x: 0, y: 4 }, { x: 4, y: 4  }, { x: 8, y: 4 }
+];
+const bossExplosions2 = [
+  { x: -2, y: 0 }, { x:2, y: 0 }, { x: 6, y: 0 }, { x: 10, y: 0 }, 
+  { x: 0, y: 2 }, { x: 4, y: 2  }, { x: 8, y: 2 },
+  { x: -2, y: 4 }, { x:2, y: 4 }, { x: 6, y: 4 }, { x: 10, y: 4 }
+]

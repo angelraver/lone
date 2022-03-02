@@ -17,7 +17,6 @@ const sTitle = new SPRITE({
   y: GAME_HEIGHT / 4, 
   w: 300,
   h: 50,
-  z: 11,
   sheet: 'gamename.png',
   totalFrames: 3
 });
@@ -28,7 +27,6 @@ const sPressEnter = () => {
     y: GAME_MID_V,
     w: GAME_WIDTH,
     h: 25,
-    z: 30,
     text: 'P R E S S  E N T E R'
   });
 }
@@ -39,7 +37,6 @@ const sCopyr = () => {
     y: GAME_HEIGHT - (GAME_HEIGHT / 10),
     w: GAME_WIDTH,
     h: 15,
-    z: 30,
     text: 'r a v e r  g a m e s  2 0 1 9'
   });
 }

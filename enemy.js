@@ -6,7 +6,6 @@ const ENEMY = function ({ type, h, w, x, y, s, spawnedAt, shootAt, loops, hitsLi
     y,
     h,
     w,
-    z: 20,
     s,
     r: spriteSheet.r,
     sheet: spriteSheet.sheet,
@@ -28,7 +27,6 @@ const ENEMYSHOOT = function (hero, enemy) {
     y: enemy.y + enemy.h,
     h: BLOCK_UNITY,
     w: BLOCK_UNITY,
-    z: 20,
     sheet: 'shoot2.png',
     totalFrames: 2
   });
