@@ -1,29 +1,44 @@
-function actionScreen () {
-  checkColisions();
+function actionScreen () {  
   drawActionScreenTexts();
   drawStars(5);
   // drawPlanet(.5);
-  // drawEnemyShoots();
-  drawEnemys();
-  drawExplosions();
+
+  if(!HideEnemys) {
+    checkColisions();
+    drawEnemys();
+    drawExplosions();
+    drawEnemyShoots();
+  }
 
   if(!GameOver) {
     drawShoots();
     drawHero();
-  }  
+  }
 
-  if(Lives === 0 && MarkTime === 0) {
+  // set game over
+  if(Lives === 0 && !GameOver) {
     GameOver = true;
     MarkTime = GlobalTime;
   }
-
-  if(GlobalTime - MarkTime === 5 && MarkTime > 0) {
+  if(GameOver && GlobalTime - MarkTime === TIME_AFTER_HERO_DEATH) {
     Screen = 'gameOver';
     MarkTime = 0;
   }
 
-  if(GlobalTime > Level.time && Enemys.length === 0) {
+  // set level complete
+  if(Enemys.length === 0 && BossKilled && !LevelComplete) {
+    LevelComplete = true;
+    MarkTime = GlobalTime;
+  }
+  if(GlobalTime - MarkTime === TIME_BOSS_EXPLOSION && LevelComplete) {
+    HideEnemys = true;
+  }
+  if(GlobalTime - MarkTime === TIME_AFTER_BOSS_DEATH && MarkTime > 0 && LevelComplete) {
     Screen = 'levelCompleted';
+    MarkTime = 0;
+    LevelComplete = false;
+    HideEnemys = false;
+    BossKilled = false;
   }
 }
 

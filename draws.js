@@ -80,10 +80,7 @@ function drawPlanet(speed) {
   Jupiter.y = Jupiter.y + speed;
   addElement('jupiter', Jupiter);
 }
-let lastEnemy;
-let BOSS_KILLED = false;
-let BOSS_EXPLOSIONS_LOADED = false;
-let BOSS_EXPOSION_ONE = true;
+
 function drawEnemys() {
   loadLevelEnemys();
   Enemys.map(function(enemy, i) {
@@ -103,7 +100,7 @@ function drawEnemys() {
           explosions.forEach(function (explosion) {
             Explosions.push(EXPLOSION(explosion));
           });
-          BOSS_KILLED = true;
+          BossKilled = true;
         } else { // one explosion at the enemys possition
           Explosions.push(EXPLOSION({ ...enemy }));
         }
@@ -130,7 +127,7 @@ function drawEnemys() {
     }
   }
     enemy.pathIndex = enemy.pathIndex + 1 < enemy.path.length ? enemy.pathIndex + 1 : 0;
-    lastEnemy = enemy;
+    LastEnemy = enemy;
   });
 }
 
@@ -138,8 +135,8 @@ const getExplosions = (enemy) => {
   const explosions = [];
   const limit = 10;
   let boom = { ...enemy, w: BLOCK_UNITY * 4, h: BLOCK_UNITY * 4 };
-  let bossExplosionsPositions = BOSS_EXPOSION_ONE ? bossExplosions : bossExplosions2;
-  BOSS_EXPOSION_ONE = !BOSS_EXPOSION_ONE;
+  let bossExplosionsPositions = BossExplosionOne ? bossExplosions(0) : bossExplosions(1);
+  BossExplosionOne = !BossExplosionOne;
   bossExplosionsPositions.map((e) => {
     explosions.push({ ...boom, x: boom.x + (BLOCK_UNITY * e.x), y: boom.y + (BLOCK_UNITY * e.y) })
   });
@@ -174,15 +171,15 @@ function drawEnemyShoots() {
 }
 
 function drawExplosions() {
-  if (BOSS_KILLED) {
-    addElement(lastEnemy);
-    lastEnemy.framing();
+  if (BossKilled) {
+    addElement(LastEnemy);
+    LastEnemy.framing();
     if (GlobalTime % 1 === 0.5 || GlobalTime % 1 === 0) {
-      if (!BOSS_EXPLOSIONS_LOADED) {
-        getExplosions(lastEnemy).forEach(function (explosion) {
+      if (!BossExplosionLoaded) {
+        getExplosions(LastEnemy).forEach(function (explosion) {
           Explosions.push(EXPLOSION(explosion));
         });
-        BOSS_EXPLOSIONS_LOADED = true;
+        BossExplosionLoaded = true;
       }
     }
   }
@@ -198,17 +195,22 @@ function drawExplosions() {
     }
   });
   if (Explosions.length === 0) {
-    BOSS_EXPLOSIONS_LOADED = false;
+    BossExplosionLoaded = false;
   }
 }
 
-const bossExplosions = [
-  { x: 0, y: 0 }, { x:4, y: 0}, { x:8, y: 0 },
-  { x: -2, y: 2 }, { x:2, y: 2 }, { x: 6, y: 2 }, { x: 10, y: 2 },
-  { x: 0, y: 4 }, { x: 4, y: 4  }, { x: 8, y: 4 }
-];
-const bossExplosions2 = [
-  { x: -2, y: 0 }, { x:2, y: 0 }, { x: 6, y: 0 }, { x: 10, y: 0 }, 
-  { x: 0, y: 2 }, { x: 4, y: 2  }, { x: 8, y: 2 },
-  { x: -2, y: 4 }, { x:2, y: 4 }, { x: 6, y: 4 }, { x: 10, y: 4 }
-]
+const bossExplosions = (n) => {
+  const v = [
+    [
+      { x: 0, y: 0 }, { x:4, y: 0}, { x:8, y: 0 },
+      { x: -2, y: 2 }, { x:2, y: 2 }, { x: 6, y: 2 }, { x: 10, y: 2 },
+      { x: 0, y: 4 }, { x: 4, y: 4  }, { x: 8, y: 4 }
+    ],
+    [
+      { x: -2, y: 0 }, { x:2, y: 0 }, { x: 6, y: 0 }, { x: 10, y: 0 }, 
+      { x: 0, y: 2 }, { x: 4, y: 2  }, { x: 8, y: 2 },
+      { x: -2, y: 4 }, { x:2, y: 4 }, { x: 6, y: 4 }, { x: 10, y: 4 }
+    ]
+  ];
+  return v[n];
+}

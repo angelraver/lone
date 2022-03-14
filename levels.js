@@ -33,32 +33,28 @@ const train = (timeStart, timeGap, units, type, x, y, shoot, loop) => {
   return enemys;
 }
 
-
-
 const GetLevelConfig = (n) => {
   const levels = {
     1: {
-      time: 70,
       enemys: [
-        getBoss(n, 1)
-        // ...train(1, 1, 30, 'topDownRandom', null, 0, -1, 1),        
-        // ...train(5, .5, 5, 'topLeftTrain', -ENEMY_SIZE, BLOCK_UNITY * 4, -1, 2),
-        // ...train(10, .5, 5, 'pathAngular', GAME_WIDTH - ENEMY_SIZE, 0, 1, 1),
-        // ...train(15, .5, 5, 'pathAngular2',  -ENEMY_SIZE, 0, 1, 1),
-        // ...train(25, .5, 5, 'pathAngular', GAME_WIDTH - ENEMY_SIZE, 0, 1, 1),
-        // ...train(30, 2, 15, 'topDownRandom', null, 0, -1, 2),
-        // ...train(35, .5, 5, 'pathAngular2',  -ENEMY_SIZE, 0, 1, 1),
-        // ...train(40, .5, 5, 'zigZagDown1', GAME_WIDTH / 5, 0, -1, 1),
-        // ...train(45, .5, 5, 'zigZagDown2', GAME_WIDTH - (GAME_WIDTH) / 5, 0, -1, 1),
-        // ...train(50, .5, 5, 'topRightTrain', GAME_WIDTH, BLOCK_UNITY * 12, 5, 2),
-        // ...train(55, .5, 5, 'topLeftTrain', 0, BLOCK_UNITY * 6, 5, 2),
-        // ...train(60, .5, 5, 'randomLeftToRight', 0, null, 5, 1),
-        // ...train(65, .5, 5, 'randomRightToLeft', GAME_WIDTH, null, 5, 1),
-        // getBoss(n, 75)
+        ...train(1, 1, 5, 'topDownRandom', null, 0, -1, 1),
+        ...train(1, 1, 30, 'topDownRandom', null, 0, -1, 1),
+        ...train(5, .5, 5, 'topLeftTrain', -ENEMY_SIZE, BLOCK_UNITY * 4, -1, 2),
+        ...train(10, .5, 5, 'pathAngular', GAME_WIDTH - ENEMY_SIZE, 0, 1, 1),
+        ...train(15, .5, 5, 'pathAngular2',  -ENEMY_SIZE, 0, 1, 1),
+        ...train(25, .5, 5, 'pathAngular', GAME_WIDTH - ENEMY_SIZE, 0, 1, 1),
+        ...train(30, 2, 15, 'topDownRandom', null, 0, -1, 2),
+        ...train(35, .5, 5, 'pathAngular2',  -ENEMY_SIZE, 0, 1, 1),
+        ...train(40, .5, 5, 'zigZagDown1', GAME_WIDTH / 5, 0, -1, 1),
+        ...train(45, .5, 5, 'zigZagDown2', GAME_WIDTH - (GAME_WIDTH) / 5, 0, -1, 1),
+        ...train(50, .5, 5, 'topRightTrain', GAME_WIDTH, BLOCK_UNITY * 12, 5, 2),
+        ...train(55, .5, 5, 'topLeftTrain', 0, BLOCK_UNITY * 6, 5, 2),
+        ...train(60, .5, 5, 'randomLeftToRight', 0, null, 5, 1),
+        ...train(65, .5, 5, 'randomRightToLeft', GAME_WIDTH, null, 5, 1),
+        getBoss(n, 72)
       ]
     },
     2: {
-      time: 75,
       enemys: [
         ...train(1, 1.5, 50, 'topDownRandom', null, 0, -1, 2),
         ...train(5, .5, 10, 'topLeftTrain', -ENEMY_SIZE, BLOCK_UNITY * 4, -1, 2),
@@ -76,7 +72,6 @@ const GetLevelConfig = (n) => {
       ]
     },
     3: {
-      time: 75,
       enemys: [
         ...train(1, 1, 60, 'topDownRandom', null, 0, -1, 2),
         ...train(5, .5, 10, 'topLeftTrain', -ENEMY_SIZE, BLOCK_UNITY * 4, -1, 2),

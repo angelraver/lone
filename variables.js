@@ -1,33 +1,38 @@
-var GlobalTime = 0;
-var MarkTime = 0;
-var speed = 5;
+var GlobalTime = 0,
+MarkTime = 0,
+speed = 5,
 
-var ShootCount = 0;
-var Shoots = [];
-var EnemyCount = 0;
-var Enemys = [];
-var EnemyShoots = [];
-var Explosions = [];
+ShootCount = 0,
+Shoots = [],
+EnemyCount = 0,
+Enemys = [],
+EnemyShoots = [],
+Explosions = [],
+LastEnemy,
+BossKilled = false,
+BossExplosionLoaded = false,
+BossExplosionOne = true,
+CurrentLevel = 1,
+Level = [],
 
-var CurrentLevel = 1;
-var Level = [];
+KillCount = 0,
+Screen = 'title',
+Lives = 1,
+GameOver = false,
+LevelComplete = false,
+HideEnemys = false,
+Pause = false,
+SetNewGame = false,
 
-var KillCount = 0;
-var Screen = 'title';
-var Lives = 1;
-var GameOver = false;
-var Pause = false;
-var SetNewGame = false;
+Enter = false,
 
-var Enter = false;
+KeyLeft = false,
+KeyRight = false,
+Acelerate = false,
+Break = false,
+Shoot = false,
 
-var KeyLeft = false;
-var KeyRight = false;
-var Acelerate = false;
-var Break = false;
-var Shoot = false;
+Hero,
+Boss,
 
-var Hero;
-var Boss;
-
-var DiscardShoot = false;
+DiscardShoot = false;

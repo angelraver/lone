@@ -6,7 +6,6 @@ function levelStartScreen () {
     Enemys = [];
     EnemyShoots = [];
     Explosions = [];
-    Lives = 1;
     GameOver =  false;
     Level = GetLevelConfig(CurrentLevel);
     SetNewGame = false;
